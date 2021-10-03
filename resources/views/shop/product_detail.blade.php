@@ -77,7 +77,6 @@
         <input type="number" class="form-control" value="{{ $product->id }}" id="product_id" name="product_id" hidden/>
         <input class="" type="submit" value="加入購物車">
     <div class="add_to_cart">
-        <a href="{{ url('/shop/addcart/'.$product->id) }}" class="btn_3">加入購物車</a>
     </div>
     </div>
     <hr class="featurette-divider">

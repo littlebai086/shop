@@ -24,6 +24,7 @@
                 <thead>
                   <tr>
                     <th scope="col">品名</th>
+                    <th scope="col">商品名稱</th>
                     <th scope="col">價格</th>
                     <th scope="col">數量</th>
                     <th scope="col">總計</th>
@@ -42,7 +43,7 @@
                     <td colspan="2"> </td>
 
                   </tr>
-                  
+                  @livewire('cart-total')
                 </tbody>
               </table>
               <div class="checkout_btn_inner float-right">

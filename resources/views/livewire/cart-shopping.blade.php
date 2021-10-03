@@ -2,9 +2,12 @@
     <td>
       <div class="media">
         <div class="d-flex">
-          <img src="" alt="{{ $shopping_cart['name'] }}" />
+          <img src="{{ url('images/'.$shopping_cart['pic']) }}" alt="{{ $shopping_cart['name'] }}" />
         </div>
       </div>
+    </td>
+    <td>
+      <h5> {{ $shopping_cart['name'] }}</h5>
     </td>
     <td>
       <h5>$ {{ $shopping_cart['price'] }}</h5>

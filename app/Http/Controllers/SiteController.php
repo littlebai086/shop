@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ShoppingCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class SiteController extends Controller
 {
     //
@@ -28,12 +29,20 @@ class SiteController extends Controller
     {
         $user = Auth::user();
         if(isset($user)){
-            $shopping_carts = ShoppingCart::where('user_id',$user->id)->orderBy('created_at','desc')->get();
-            $products = Product::where('id',$shopping_carts[0]['product_id'])->get();
-            dd($products);
-            //$shopping_carts = DB::table('shopping_carts')->leftJoin('products', 'shopping_carts.product_id', '=', 'products.id')->where('shopping_carts.user_id',$user->id)->orderBy('shopping_carts.created_at','desc')->get();
+            $shopping_carts = ShoppingCart::join('products', 'shopping_carts.product_id', '=', 'products.id')
+                                        ->where('shopping_carts.user_id',$user->id)
+                                        ->select('shopping_carts.*', 'products.pic')
+                                        ->orderBy('shopping_carts.created_at','desc')
+                                        ->get();
+            /*$shopping_carts = DB::table('shopping_carts')
+                                ->join('products', 'shopping_carts.product_id', '=', 'products.id')
+                                ->select('shopping_carts.*', 'products.pic')
+                                ->where('shopping_carts.user_id',$user->id)
+                                ->orderBy('shopping_carts.created_at','desc')
+                                ->get();*/
+            //dd($shopping_carts);
         }
-        //return view('shop.cart',compact('shopping_carts'));
+        return view('shop.cart',compact('shopping_carts'));
     }
 
     public function addCart(Request $request)
@@ -59,10 +68,8 @@ class SiteController extends Controller
                 'associatedModel' => $product
             ]);*/
         }
-        //return redirect('shop/cart');
-        //return $request->session()->all();
-        //return $request->get();
-        return view('shop.index');
+        return redirect('shop/cart');
+        //return view('shop.cart');
     }
 
     public function loginOut(Request $request)

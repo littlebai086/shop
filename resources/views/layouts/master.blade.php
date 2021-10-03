@@ -84,7 +84,7 @@
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"></svg>
                 使用者
             @else
-            <li><a href="#"><span>歡迎,{{ Auth::user()->name }}</span></a></li>
+            <li><a href="#"><span>{{ Auth::user()->name }}</span></a></li>
             @endif
               </a>
             </li>
