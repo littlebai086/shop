@@ -3,32 +3,71 @@
 namespace App\Http\Controllers;
 use App\Models\Element;
 use App\Models\Product;
+use App\Models\ShoppingCart;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class SiteController extends Controller
 {
     //
     public function renderHomePage()
     {
-        //$main_titles = Element::where('page','index')->where('position','main_title')->orderBy('sort','asc')->get();
-        //$heads = Product::where('page','index')->where('position','main_title')->orderBy('sort','asc')->get();
-        //$els_gallery = Element::where('page','index')->where('position','gallery')->enabled()->get();
         $products = Product::where('hoted',true)->orderBy('price','desc')->take(3)->get();
         $new_products = Product::orderBy('created_at','desc')->take(3)->get();
-        //$el_news_top = Element::where('page','index')->where('position','news_top')->enabled()->first();
-        //$prod_news = Product::where('hoted',true)->orderBy('created_at','desc')->take(6)->get();
-        //$el_video = Element::where('page','index')->where('position','video')->enabled()->first();
-        //$best_prods = Product::where('hoted',true)->orderBy('price','desc')->take(2)->get();
-        //return view('index',compact('el_slider','els_gallery','products','el_news_top','prod_news','el_video','best_prods'));
-        return view('shop',compact('products','new_products'));
+         return view('shop',compact('products','new_products'));
     }
     public function renderProductDetailPage(Request $request, Product $product)
     {
-        //$main_titles = Element::where('page','index')->where('position','main_title')->orderBy('sort','asc')->get();
         return view('shop.product_detail',compact('product'));
     }
     public function renderShopPage()
     {
+        return view('shop.index');
+    }
+
+    public function renderCartPage()
+    {
+        $user = Auth::user();
+        if(isset($user)){
+            $shopping_carts = ShoppingCart::where('user_id',$user->id)->orderBy('created_at','desc')->get();
+            $products = Product::where('id',$shopping_carts[0]['product_id'])->get();
+            dd($products);
+            //$shopping_carts = DB::table('shopping_carts')->leftJoin('products', 'shopping_carts.product_id', '=', 'products.id')->where('shopping_carts.user_id',$user->id)->orderBy('shopping_carts.created_at','desc')->get();
+        }
+        //return view('shop.cart',compact('shopping_carts'));
+    }
+
+    public function addCart(Request $request)
+    {
+        $user = Auth::user();
+        $data = $request->only(['product_id','product_name','qty','price']);
+        if(isset($user)){
+            $newShoppingCart = new ShoppingCart();
+            $newShoppingCart->user_id = $user->id;
+            $newShoppingCart->product_id = $data['product_id'];
+            $newShoppingCart->name = $data['product_name'];
+            $newShoppingCart->price = $data['price'];
+            $newShoppingCart->qty = $data['qty'];
+            $newShoppingCart->save();
+
+
+            /*\Cart::session($user->id)->add([
+                'id' => $product->id,
+                'name' => $product->name,
+                'price' => $product->price,
+                'quantity' => 1,
+                'attributes' => [],
+                'associatedModel' => $product
+            ]);*/
+        }
+        //return redirect('shop/cart');
+        //return $request->session()->all();
+        //return $request->get();
+        return view('shop.index');
+    }
+
+    public function loginOut(Request $request)
+    {
+        $request->session()->flush();
         return view('shop.index');
     }
 }

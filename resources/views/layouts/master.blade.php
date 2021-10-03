@@ -51,7 +51,10 @@
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">首頁</a>
+                <a class="nav-link active" aria-current="page" href="{{ url('/') }}">首頁</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ url('/shop/') }}">商店</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#" tabindex="-1" aria-disabled="true">關於我們</a>
@@ -65,20 +68,24 @@
             </ul>
             <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
               <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"></svg>
                 搜尋
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
+              <a href="{{ url('/shop/cart/') }}" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"></svg>
                 購物車
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
-                <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
+            @if(!Auth::check())
+              <a href="{{ url('/login') }}" class="nav-link text-white">
+                <svg class="bi d-block mx-auto mb-1" width="24" height="24"></svg>
                 使用者
+            @else
+            <li><a href="#"><span>歡迎,{{ Auth::user()->name }}</span></a></li>
+            @endif
               </a>
             </li>
           </ul>

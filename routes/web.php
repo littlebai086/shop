@@ -29,3 +29,13 @@ Route::get('/shop', function () {
 Route::get('/','App\Http\Controllers\SiteController@renderHomePage');
 Route::get('/shop','App\Http\Controllers\SiteController@renderShopPage');
 Route::get('/shop/products/{product}','App\Http\Controllers\SiteController@renderProductDetailPage');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/loginOut', 'App\Http\Controllers\SiteController@loginout');
+
+Route::get('/shop/cart','App\Http\Controllers\SiteController@renderCartPage');
+//Route::get('/shop/addcart/{product}','App\Http\Controllers\SiteController@addCart');
+Route::post('/shop/addcart','App\Http\Controllers\SiteController@addCart');
+//Route::get('/shop/addcart','App\Http\Controllers\SiteController@addCart');

@@ -49,12 +49,14 @@
   <!-- Marketing messaging and featurettes
   ================================================== -->
   <!-- Wrap the rest of the page in another container to center all the content. -->
-
   <div class="container marketing">
     <!-- START THE FEATURETTES -->
+    <form class="row contact_form" action="{{ url('/shop/addcart/') }}" method="post" novalidate="novalidate" wire:submit.prevent="submit">
+    @csrf
     <hr class="featurette-divider">
     <div class="row featurette">
        <div class="col-md-7">
+       <input type="text" class="form-control" value="{{ $product->name }}" id="product_name" name="product_name" wire:model.defer="name" hidden/>
         <h2 class="featurette-heading">{{ $product->name }} <span class="text-muted"></span></h2>
         <p class="lead">{!! $product->desc !!}</p>
       </div>
@@ -66,11 +68,14 @@
             <p>數量</p>
             <div class="product_count d-inline-block">
                 <span class="product_count_item inumber-decrement"> <i class="ti-minus"></i></span>
-                <input class="product_count_item input-number" type="number" value="1" min="0" max="10">
+                <input class="product_count_item input-number" type="number"  id="qty" name="qty" value="1" min="1" max="10">
                 <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
             </div>
             <p>${{ $product->price }}</p>
+            <input type="number" class="form-control" value="{{ $product->price }}" id="price" name="price" hidden/>
         </div>
+        <input type="number" class="form-control" value="{{ $product->id }}" id="product_id" name="product_id" hidden/>
+        <input class="" type="submit" value="加入購物車">
     <div class="add_to_cart">
         <a href="{{ url('/shop/addcart/'.$product->id) }}" class="btn_3">加入購物車</a>
     </div>
