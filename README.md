@@ -10,7 +10,7 @@
 # 初始化
 
 將本專案clone到本地端
-專案網址： https://github.com/littlebai/
+專案網址： https://github.com/littlebai086/shop.git
 
 1. 先安裝所有使用的套件指令
 於終端機下達:composer install
